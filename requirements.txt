@@ -2,4 +2,3 @@ crewai
 crewai-tools
 agentops
 yfinance
-uvicorn
