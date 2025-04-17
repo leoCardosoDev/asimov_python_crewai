@@ -1,41 +1,105 @@
-especificar_requisitos_sistema_multi_agents:
-    description: >
-        Realizar levantamento junto aos stakeholders, identificar necessidades de negócio e definir os requisitos funcionais e não funcionais para o sistema CrewAI.
-    expected_output: >
-        Documento detalhado de requisitos e um overview do escopo e funcionalidades dos agentes necessários.
-    agent: arquiteto_de_sistemas
+planejar_arquitetura_do_sistema:
+  description: >
+    Definir a estrutura do sistema de agentes, listando os agentes necessários 
+    e as tarefas a serem executadas.
+    Sistema que deve ser criado é: {definicao_do_sistema}.
+  expected_output: >
+    Documento especificando os agentes e tarefas planejadas para o sistema de {definicao_do_sistema}.
+  agent: arquiteto_de_solucao
 
-modelar_arquitetura_multi_agents:
-    description: >
-        Estruturar o diagrama de arquitetura lógica, detalhar interações entre agentes e tarefas e definir tecnologias e integrações principais.
-    expected_output: >
-        Documento ou diagrama de arquitetura, lista de responsabilidades e integrações selecionadas.
-    agent: arquiteto_de_sistemas
+criar_os_agentes:
+  description: >
+    Desenvolver o arquivo agents.yaml com a definição detalhada de cada agente, 
+    incluindo suas funções, objetivos e contexto, conforme definido anteriormente.
+  expected_output: >
+    Arquivo agents.yaml contendo a configuração dos agentes do sistema.
+    O arquivo deve ter a seguinte formatação:
+    ```yaml
+    nome_do_agente:
+      role: >
+        Role aqui
+      goal: >
+        Goal aqui
+      backstory: >
+        Backstory aqui
+    ```
+    Lembrando que os agentes devem ter um nome em snake case
 
-definir_documentar_agentes:
-    description: >
-        Traduzir especificações em perfis de agentes CrewAI, detalhando suas funções, contextos, limitações e informações para o arquivo agents.yaml.
-    expected_output: >
-        Arquivo agents.yaml pronto para uso, com cada agente documentado de acordo com o padrão do CrewAI.
-    agent: engenheiro_de_ia
+  agent: especialista_em_agentes
 
-elaborar_tasks_e_workflows:
-    description: >
-        Detalhar todas as tarefas do sistema, associando-as aos agentes responsáveis, definindo entradas, saídas e sequenciamento de execução.
-    expected_output: >
-        Arquivo tasks.yaml com descrição completa das tasks e mapeamento de responsabilidades.
-    agent: engenheiro_de_ia
+definir_as_tarefas:
+  description: >
+    Criar o arquivo tasks.yaml especificando cada tarefa do sistema e seu 
+    respectivo agente executor.
+  expected_output: >
+    Arquivo tasks.yaml contendo todas as tarefas bem definidas.
+    O arquivo deve ter a seguinte formatação:
+    ```yaml
+    nome_da_task:
+      description: >
+        Descrição aqui
+      expected_output: >
+        Saída esperada aqui
+      agent: agente_aqui
+    ```
+    Lembrando que os agentes e tasks devem ter um nome em snake case
+  agent: gerente_de_fluxo_de_trabalho
 
-implementar_crew_py_e_integracoes:
-    description: >
-        Desenvolver o script principal de execução, integrando arquivos agents.yaml e tasks.yaml à lógica do CrewAI, além de configurar quaisquer integrações externas necessárias.
-    expected_output: >
-        Arquivo crew.py funcional e pronto para execução do sistema, incluindo scripts de integração quando necessário.
-    agent: desenvolvedor_backend
+desenvolver_o_arquivo_de_orquestracao:
+  description: >
+    Criar o arquivo crew.py, carregando os agentes e tarefas definidos e garantindo 
+    que o sistema funcione corretamente.
+  expected_output: >
+    Arquivo crew.py implementado e pronto para ser executado.
+    O arquivo deve seguir a seguinte formatação:
+    ```python
+    from crewai import Agent, Crew, Process, Task
+    from crewai.project import CrewBase, agent, crew, task
 
-validar_testar_ajustar_sistema:
-    description: >
-        Construir e executar casos de teste, analisar resultados, identificar pontos de melhoria, corrigir bugs e garantir aderência do sistema aos requisitos especificados.
-    expected_output: >
-        Relatório de testes realizado, sistema validado (crew.py, agents.yaml, tasks.yaml) e documentação de ajustes implementados.
-    agent: engenheiro_de_qa
+    @CrewBase
+    class CreateCrewProject():
+      """CreateCrewProject crew"""
+
+
+      agents_config = 'config/agents.yaml'
+      tasks_config = 'config/tasks.yaml'
+
+      @agent
+      def arquiteto_de_solucao(self) -> Agent:
+        return Agent(
+          config=self.agents_config['arquiteto_de_solucao'],
+          verbose=True,
+        )
+
+      @agent
+      def especialista_em_agentes(self) -> Agent:
+        return Agent(
+          config=self.agents_config['especialista_em_agentes'],
+          verbose=True
+        )
+
+      @task
+      def planejar_arquitetura_do_sistema(self) -> Task:
+        return Task(
+          config=self.tasks_config['planejar_arquitetura_do_sistema'],
+        )
+
+      @task
+      def criar_os_agentes(self) -> Task:
+        return Task(
+          config=self.tasks_config['criar_os_agentes'],
+        )
+
+      @crew
+      def crew(self) -> Crew:
+        """Creates the CreateCrewProject crew"""
+
+        return Crew(
+          agents=self.agents, # Automatically created by the @agent decorator
+          tasks=self.tasks, # Automatically created by the @task decorator
+          process=Process.sequential,
+          verbose=True,
+        )
+
+    ```
+  agent: engenheiro_de_orquestracao
