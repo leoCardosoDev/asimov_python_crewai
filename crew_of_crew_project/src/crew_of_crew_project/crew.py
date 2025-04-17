@@ -8,7 +8,7 @@ import agentops
 agentops.init()
 
 @CrewBase
-class CreateCrewProject():
+class CrewOfCrewProject():
 	"""CreateCrewProject crew"""
 
 	agents_config = 'config/agents.yaml'

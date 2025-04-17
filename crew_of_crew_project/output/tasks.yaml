@@ -1,0 +1,27 @@
+research_content:
+  description: >
+    Coletar e analisar dados relacionados ao conteúdo do curso a ser desenvolvido. Realizar pesquisas online para encontrar materiais relevantes sobre o Python e os tópicos pertinentes que deverão ser abordados no curso.
+  expected_output: >
+    Dados coletados e analisados sobre o conteúdo do curso. Materiais relevantes de Python e tópicos correlatos encontrados e listados.
+  agent: agente_de_pesquisa_de_conteudo
+
+plan_content:
+  description: >
+    Elaborar um esquema ou plano de curso, considerando os tópicos e conceitos importantes identificados pelo Agente de Pesquisa. Estruturar o fluxo do curso para garantir uma aprendizagem progressiva e eficaz.
+  expected_output: >
+    Esquema ou plano do curso estruturado, considerando a progressão eficaz da aprendizagem.
+  agent: agente_de_planejamento_de_conteudo
+
+write_content:
+  description: >
+    Escrever e desenvolver o material do curso em si, baseado no plano fornecido pelo agente de planejamento. Seguir o escopo do curso e garantir que cada conceito seja explicado de forma clara e eficaz.
+  expected_output: >
+    Material do curso escrito e desenvolvido, com cada conceito claramente explicado.
+  agent: agente_de_redacao_de_conteudo
+
+review_content:
+  description: >
+    Revisar o material do curso preparado pelo Agente de Redação de Conteúdo. Garantir que o conteúdo esteja livre de erros gramaticais e factual. Verificar se o curso atende aos objetivos de aprendizagem pretendidos e se o fluxo do curso está eficaz.
+  expected_output: >
+    Material do curso revisado, sem erros gramaticais e factuais. Confirmação de que o curso atende aos objetivos de aprendizagem e possui fluxo eficaz.
+  agent: agente_de_revisao
